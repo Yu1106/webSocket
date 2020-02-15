@@ -8,11 +8,13 @@
         $(document).ready(function () {
             SetupWebSocket();
         });
+
         // 連線至提供資料的WebSocket
         function SetupWebSocket() {
             var host = 'ws://localhost:12345/server.php';
             socket = new WebSocket(host);
             socket.onopen = function (e) {
+                socket.send('today is 20200215 firrst test websocket');
                 $('#ShowTime').html('WebSocket Connected!');
             };
             socket.onmessage = function (e) {

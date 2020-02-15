@@ -15,10 +15,12 @@ while (true) {
 
 	$write = NULL;
 	$except = NULL;
+	// 获取read数组中活动的socket，并且把不活跃的从read数组中删除
 	if (socket_select($read, $write, $except, NULL) < 1)
 		continue;
 
 	if (in_array($sock, $read)) {
+		// 接受一个套接字连接，成功返回一个新的套接字的信息资源，失败返回false
 		$newsock = socket_accept($sock);
 		connect($newsock);
 
@@ -28,6 +30,13 @@ while (true) {
 	}
 
 	foreach ($read as $socket) {
+		/**
+		 * 说明
+		 * socket_recv ( resource $socket , string &$buf , int $len , int $flags ) : int
+		 * 函数 socket_recv() 从 socket 中接受长度为 len 字节的数据，并保存在 buf 中。
+		 * socket_recv() 用于从已连接的socket中接收数据。除此之外，可以设定一个或多个 flags 来控制函数的具体行为。
+		 * buf 以引用形式传递，因此必须是一个以声明的有效的变量。从 socket 中接收到的数据将会保存在 buf 中。
+		 */
 		$bytes = @socket_recv($socket, $buffer, 2048, 0);
 
 		if ($bytes == 0) {
@@ -226,7 +235,7 @@ function dohandshake($user, $buffer)
 	console($upgrade);
 	console("Done handshaking...\n\n");
 
-	doTest($user->socket);
+//	doTest($user->socket);
 	return true;
 }
 
