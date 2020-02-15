@@ -75,7 +75,8 @@ function process($socket, $msg)
 {
 	// 訊息需要解碼
 	$action = unmask($msg);
-	console("< " . $action);
+	console("> " . $action);
+	send($socket, $action);
 }
 
 /**
